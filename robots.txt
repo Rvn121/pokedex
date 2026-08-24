@@ -1,0 +1,7 @@
+# Für Kommentare kann eine Raute verwendet werden. Diese Kommentare werden von den Suchmaschinen nicht gelesen. Die Robots Textdatei im Verzeichnis der Website dient dazu, dass Inhalte des Verzeichnisses nicht von Suchmaschinen wie Google verwendet werden können. Die Indexdatei ist in diesem Beispiel enthalten, weil hier private Inhalte mit enthalten sind. 
+
+User-Agent: *
+
+Disallow: /index.html
+Disallow: /datenschutz.html
+Disallow: /impressum.html
