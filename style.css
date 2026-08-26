@@ -2155,3 +2155,638 @@ body.dialog-open {
 .search-results-close:hover {
   transform: translateY(-2px) scale(1.08);
 }
+
+
+/* ===================================== */
+/* FIXED HEADER + BACK TO TOP            */
+/* ===================================== */
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+.header-logo-link {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 12px;
+  transition:
+    transform 150ms ease,
+    opacity 150ms ease;
+}
+
+.header-logo-link:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.header-logo-link:focus-visible {
+  outline: 3px solid #ffc107;
+  outline-offset: 4px;
+}
+
+.back-to-top-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 2px solid #dc3545;
+  border-radius: 20px;
+  background-color: white;
+  color: #dc3545;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.back-to-top-link:hover {
+  background-color: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.back-to-top-arrow {
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+/* ===================================== */
+/* DETAIL VIEW UNDER 430 PX              */
+/* ===================================== */
+
+@media (max-width: 430px) {
+  .pokemon-dialog {
+    width: 96vw;
+    max-height: 96vh;
+  }
+
+  .detail-card {
+    height: 94vh;
+    border-radius: 20px;
+  }
+
+  .detail-hero {
+    flex-basis: 310px;
+  }
+
+  .detail-title-area {
+    padding: 42px 12px 0;
+  }
+
+  .detail-title-navigation {
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    gap: 5px;
+  }
+
+  .detail-title-text {
+    overflow: hidden;
+  }
+
+  .detail-name {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: clamp(18px, 6.5vw, 25px);
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .detail-id {
+    font-size: 14px;
+  }
+
+  .detail-mini-ball {
+    width: 15px;
+    height: 15px;
+  }
+
+  .detail-mini-ball::before {
+    width: 15px;
+  }
+
+  .dialog-nav-button,
+  .dialog-nav-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .dialog-close-button,
+  .dialog-close-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dialog-close-button {
+    top: 8px;
+    right: 8px;
+  }
+
+  .detail-hero-content {
+    height: 235px;
+  }
+
+  .detail-image-carousel {
+    inset: 8px 28px 0;
+    height: 225px;
+    min-height: 225px;
+  }
+
+  .detail-image-carousel .carousel-inner,
+  .detail-image-carousel .carousel-item,
+  .detail-image {
+    height: 225px;
+    min-height: 225px;
+  }
+
+  .detail-image {
+    width: min(90%, 260px);
+  }
+
+  .detail-section-tabs {
+    flex-basis: 66px;
+    padding: 0 4px;
+  }
+
+  .detail-section-tab {
+    gap: 1px;
+    padding: 0 2px;
+    font-size: 10px;
+  }
+
+  .detail-tab-icon {
+    font-size: 15px;
+  }
+
+  .detail-panel {
+    padding: 18px 16px 22px;
+  }
+
+  .profile-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 350px) {
+  .detail-title-area {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .detail-title-navigation {
+    grid-template-columns: 32px minmax(0, 1fr) 32px;
+    gap: 3px;
+  }
+
+  .dialog-nav-button,
+  .dialog-nav-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .detail-name {
+    font-size: 18px;
+  }
+}
+
+
+/* ===================================== */
+/* MOBILE QUICK NAVIGATION               */
+/* ===================================== */
+
+.mobile-page-navigation {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-page-navigation {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .mobile-page-link {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border: 2px solid #ffc107;
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.12);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  .mobile-page-link:hover {
+    background-color: #ffc107;
+    color: #212529;
+    transform: translateY(-2px);
+  }
+
+  #pageEnd {
+    scroll-margin-top: 170px;
+  }
+}
+
+@media (max-width: 380px) {
+  .mobile-page-navigation {
+    flex-direction: column;
+  }
+
+  .mobile-page-link {
+    width: 100%;
+  }
+}
+
+
+/* ===================================== */
+/* SEARCH BUTTON ICON                    */
+/* ===================================== */
+
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  padding: 7px 11px;
+}
+
+.search-button-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+
+/* ===================================== */
+/* COMPACT MOBILE HEADER                 */
+/* ===================================== */
+
+@media (max-width: 768px) {
+  .header-content {
+    gap: 8px;
+    min-height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .pokedex-logo {
+    width: 165px;
+  }
+
+  .search-area {
+    display: flex;
+    width: 100%;
+    max-width: 520px;
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .search-input {
+    min-width: 0;
+    border: 3px solid #ffc107;
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .search-button {
+    width: 50px;
+    min-width: 50px;
+    padding: 5px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .search-button-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .mobile-page-navigation {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .mobile-page-link {
+    width: auto;
+    min-height: 28px;
+    padding: 3px 8px;
+    border-width: 1px;
+    border-radius: 14px;
+    font-size: 10px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .pokedex-logo {
+    width: 145px;
+  }
+
+  .search-area {
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .search-input {
+    border: 3px solid #ffc107;
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .search-button {
+    width: 46px;
+    min-width: 46px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .search-button-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .mobile-page-navigation {
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .mobile-page-link {
+    width: auto;
+    min-height: 26px;
+    padding: 3px 7px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 340px) {
+  .mobile-page-link {
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 8px;
+  }
+}
+
+
+/* ===================================== */
+/* COMPACT DETAIL VIEW ON MOBILE         */
+/* ===================================== */
+
+@media (max-width: 430px) {
+  .pokemon-dialog {
+    width: 94vw;
+    max-height: 94vh;
+  }
+
+  .detail-card {
+    height: 90vh;
+    border-radius: 18px;
+  }
+
+  .detail-hero {
+    flex-basis: 250px;
+  }
+
+  .detail-title-area {
+    padding-top: 34px;
+  }
+
+  .detail-name {
+    font-size: clamp(17px, 6vw, 22px);
+  }
+
+  .detail-id-line {
+    margin-top: 0;
+  }
+
+  .detail-id {
+    font-size: 12px;
+  }
+
+  .dialog-nav-button,
+  .dialog-nav-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dialog-close-button,
+  .dialog-close-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .detail-hero-content {
+    height: 185px;
+  }
+
+  .detail-image-carousel {
+    inset: 2px 34px 0;
+    height: 180px;
+    min-height: 180px;
+  }
+
+  .detail-image-carousel .carousel-inner,
+  .detail-image-carousel .carousel-item,
+  .detail-image {
+    height: 180px;
+    min-height: 180px;
+  }
+
+  .detail-image {
+    width: min(82%, 210px);
+  }
+
+  .detail-section-tabs {
+    flex-basis: 54px;
+  }
+
+  .detail-section-tab {
+    font-size: 9px;
+  }
+
+  .detail-tab-icon {
+    font-size: 13px;
+  }
+
+  .detail-panel {
+    padding: 13px 12px 16px;
+  }
+
+  .detail-panel h3 {
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
+
+  .profile-panel {
+    gap: 14px;
+  }
+
+  .profile-left {
+    gap: 14px;
+  }
+
+  .detail-info-group {
+    gap: 6px;
+  }
+
+  .profile-type-list,
+  .profile-ability-list {
+    gap: 6px;
+  }
+
+  .profile-type-list .detail-type-chip {
+    min-height: 28px;
+    padding: 3px 9px;
+    font-size: 10px;
+  }
+
+  .detail-ability-chip {
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  .profile-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .profile-metric-card {
+    min-height: 62px;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 14px;
+  }
+
+  .metric-symbol {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    font-size: 15px;
+  }
+
+  .metric-label {
+    font-size: 10px;
+  }
+
+  .profile-metric-card strong {
+    font-size: 15px;
+  }
+
+  .modern-stats {
+    gap: 9px;
+  }
+
+  .modern-stat-row {
+    grid-template-columns: 68px 1fr 32px;
+    gap: 7px;
+    font-size: 11px;
+  }
+
+  .detail-move-list {
+    gap: 6px;
+  }
+
+  .detail-move {
+    padding: 5px 8px;
+    border-radius: 13px;
+    font-size: 10px;
+  }
+
+  .evolution-chain-list {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .evolution-chain-item {
+    padding: 6px 9px;
+    border-radius: 13px;
+    font-size: 10px;
+  }
+
+  .evolution-controls {
+    gap: 7px;
+    margin-top: 6px;
+  }
+
+  .evolution-button {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .detail-card {
+    height: 92vh;
+  }
+
+  .detail-hero {
+    flex-basis: 225px;
+  }
+
+  .detail-hero-content {
+    height: 165px;
+  }
+
+  .detail-image-carousel {
+    height: 160px;
+    min-height: 160px;
+  }
+
+  .detail-image-carousel .carousel-inner,
+  .detail-image-carousel .carousel-item,
+  .detail-image {
+    height: 160px;
+    min-height: 160px;
+  }
+
+  .profile-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ===================================== */
+/* SEARCH TEXT DESKTOP / ICON MOBILE     */
+/* ===================================== */
+
+.search-button-text {
+  display: inline;
+}
+
+.search-button-icon {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .search-button-text {
+    display: none;
+  }
+
+  .search-button-icon {
+    display: block;
+  }
+}

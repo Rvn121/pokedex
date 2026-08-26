@@ -10,19 +10,27 @@ let pokemonDatabase = {
   searchIndex: [],
 };
 
+let leavePageByLink = false;
+
 async function initDatabase() {
-  clearDatabaseOnRefresh();
+  addDatabaseNavigationEvents();
   const savedDatabase = sessionStorage.getItem(DATABASE_KEY);
   if (savedDatabase) return loadSavedDatabase(savedDatabase);
   await loadEmptyDatabase();
 }
 
+function addDatabaseNavigationEvents() {
+  const links = document.querySelectorAll("a");
+  links.forEach((link) => link.addEventListener("click", keepDatabase));
+  window.addEventListener("beforeunload", clearDatabaseOnRefresh);
+}
+
+function keepDatabase() {
+  leavePageByLink = true;
+}
+
 function clearDatabaseOnRefresh() {
-  const navigation = performance.getEntriesByType("navigation")[0];
-  if (!navigation) return;
-  if (navigation.type === "reload") {
-    sessionStorage.removeItem(DATABASE_KEY);
-  }
+  if (!leavePageByLink) sessionStorage.removeItem(DATABASE_KEY);
 }
 
 function loadSavedDatabase(savedDatabase) {
@@ -57,16 +65,18 @@ function savePokemonList(pokemonList) {
 }
 
 function savePokemon(pokemon) {
-  const savedPokemon = getPokemonFromDatabase(pokemon.id);
-  if (!savedPokemon) pokemonDatabase.pokemon.push(pokemon);
+  const index = findPokemonInDatabase(pokemon.id);
+  if (index === -1) pokemonDatabase.pokemon.push(pokemon);
+}
+
+function findPokemonInDatabase(id) {
+  return pokemonDatabase.pokemon.findIndex((pokemon) => pokemon.id === id);
 }
 
 function getPokemonFromDatabase(id) {
-  return pokemonDatabase.pokemon.find((pokemon) => pokemon.id === id);
-}
-
-function getAllPokemonFromDatabase() {
-  return pokemonDatabase.pokemon;
+  const index = findPokemonInDatabase(id);
+  if (index === -1) return null;
+  return pokemonDatabase.pokemon[index];
 }
 
 function saveContentIds(ids) {
@@ -86,9 +96,14 @@ function getContentIds() {
 }
 
 function getContentPokemonFromDatabase() {
-  return pokemonDatabase.contentIds
-    .map((id) => getPokemonFromDatabase(id))
-    .filter((pokemon) => pokemon);
+  const pokemon = [];
+  pokemonDatabase.contentIds.forEach((id) => addContentPokemon(pokemon, id));
+  return pokemon;
+}
+
+function addContentPokemon(pokemon, id) {
+  const savedPokemon = getPokemonFromDatabase(id);
+  if (savedPokemon) pokemon.push(savedPokemon);
 }
 
 function saveSearchIndex(searchIndex) {

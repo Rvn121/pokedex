@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
 
-  <body class="d-flex flex-column min-vh-100">
+  <body id="top" class="d-flex flex-column min-vh-100">
 
 
 
@@ -34,11 +34,17 @@
     <header class="page-header">
       <div class="wide-content header-content">
         <div class="header-logo-area">
-          <img
-            src="./assets/img/pokedexlogo.png"
-            alt="Pokédex logo"
-            class="pokedex-logo"
-          />
+          <a
+            href="#top"
+            class="header-logo-link"
+            aria-label="Back to top"
+          >
+            <img
+              src="./assets/img/pokedexlogo.png"
+              alt="Pokédex logo"
+              class="pokedex-logo"
+            />
+          </a>
         </div>
 
         <div class="search-area" id="searchArea">
@@ -61,7 +67,13 @@
             aria-label="Search Pokémon"
             data-id="search-button"
           >
-            Search
+            <span class="search-button-text">Search</span>
+
+            <img
+              src="./assets/icons/search.png"
+              alt=""
+              class="search-button-icon"
+            />
           </button>
 
           <div
@@ -74,6 +86,19 @@
             e.g. “pik”, to start searching.
           </div>
         </div>
+
+        <nav
+          class="mobile-page-navigation"
+          aria-label="Quick page navigation"
+        >
+          <a href="#top" class="mobile-page-link">
+            ↑ Back to top
+          </a>
+
+          <a href="#pageEnd" class="mobile-page-link">
+            ↓ Go to end
+          </a>
+        </nav>
       </div>
     </header>
 
@@ -88,6 +113,15 @@
 
         <div class="load-more-area">
           <p class="loaded-counter mb-0" id="loadedCounter"></p>
+
+          <a
+            href="#top"
+            class="back-to-top-link"
+            aria-label="Back to top"
+          >
+            <span class="back-to-top-arrow" aria-hidden="true">↑</span>
+            Back to top
+          </a>
 
           <div class="load-controls">
             <div class="load-button-stage" id="loadButtonStage">
@@ -130,7 +164,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="page-footer">
+    <footer class="page-footer" id="pageEnd">
       <div class="wide-content footer-content">
         <img
           src="./assets/img/Rouven-Logo.png"
@@ -603,9 +637,14 @@
     ></script>
 
     <!-- Eigene JavaScript -->
+    <script src="./script.js"></script>
     <script src="./scripts/database.js"></script>
     <script src="./scripts/templates.js"></script>
+    <script src="./scripts/api.js"></script>
+    <script src="./scripts/load.js"></script>
+    <script src="./scripts/loadButton.js"></script>
+    <script src="./scripts/evolution.js"></script>
+    <script src="./scripts/detail.js"></script>
     <script src="./scripts/search.js"></script>
-    <script src="./script.js"></script>
   </body>
 </html>

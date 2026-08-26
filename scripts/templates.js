@@ -75,7 +75,9 @@ function getNotFoundTemplate() {
 }
 
 function formatPokemonId(id) {
-  return `#${String(id).padStart(3, "0")}`;
+  let number = String(id);
+  while (number.length < 3) number = "0" + number;
+  return "#" + number;
 }
 
 function capitalizePokemonWord(word) {

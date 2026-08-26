@@ -16,31 +16,30 @@ const searchErrorOkButton = document.getElementById("searchErrorOkButton");
 let searchHelpTimer;
 let returnToSearchResults = false;
 
-function addSearchEvents() {
-  searchInput.addEventListener("input", updateSearchButton);
+function initSearch() {
+  addSearchInputEvents();
+  addSearchDialogEvents();
+}
+
+function addSearchInputEvents() {
+  searchInput.addEventListener("input", checkSearchHelp);
   searchButton.addEventListener("click", startPokemonSearch);
   searchInput.addEventListener("keydown", searchWithEnter);
   searchArea.addEventListener("mouseenter", startSearchHelpTimer);
   searchArea.addEventListener("mouseleave", hideSearchHelp);
   searchInput.addEventListener("focus", startSearchHelpTimer);
   searchInput.addEventListener("blur", hideSearchHelp);
-  addSearchDialogEvents();
 }
 
 function addSearchDialogEvents() {
-  addSearchResultDialogEvents();
+  closeSearchResultsButton.addEventListener("click", closeSearchResultsDialog);
+  searchResultsDialog.addEventListener("click", closeSearchResultsOnBackdrop);
   closeSearchErrorButton.addEventListener("click", closeSearchErrorDialog);
   searchErrorOkButton.addEventListener("click", closeSearchErrorDialog);
   searchErrorDialog.addEventListener("click", closeSearchErrorOnBackdrop);
 }
 
-function addSearchResultDialogEvents() {
-  closeSearchResultsButton.addEventListener("click", closeSearchResultsDialog);
-  searchResultsDialog.addEventListener("click", closeSearchResultsOnBackdrop);
-  searchResultsList.addEventListener("click", openSearchPreviewCard);
-}
-
-function updateSearchButton() {
+function checkSearchHelp() {
   if (getSearchQuery().length >= 3) hideSearchHelp();
 }
 
@@ -88,14 +87,14 @@ async function runPokemonSearch(query) {
   try {
     const results = await findPokemonSearchResults(query);
     if (results.length === 0) return finishEmptySearch();
-    await openSearchResults(results);
+    openSearchResults(results);
   } catch (error) {
     stopLoading();
     showErrorDialog();
   }
 }
 
-async function openSearchResults(results) {
+function openSearchResults(results) {
   renderSearchPreview(results);
   stopLoading();
   if (!searchResultsDialog.open) searchResultsDialog.showModal();
@@ -105,6 +104,12 @@ function renderSearchPreview(results) {
   detailPokemon = results;
   searchResultsList.innerHTML = results.map(getPokemonCardTemplate).join("");
   searchResultsCount.textContent = getSearchResultCountText(results.length);
+  addSearchPreviewCardEvents();
+}
+
+function addSearchPreviewCardEvents() {
+  const cards = searchResultsList.querySelectorAll('[data-id="card"]');
+  cards.forEach((card) => card.addEventListener("click", openSearchPreviewCard));
 }
 
 function getSearchResultCountText(amount) {
@@ -113,11 +118,9 @@ function getSearchResultCountText(amount) {
 }
 
 async function openSearchPreviewCard(event) {
-  const card = event.target.closest('[data-id="card"]');
-  if (!card) return;
   returnToSearchResults = true;
   hideSearchResultsDialog();
-  await openSearchPokemonDetail(Number(card.dataset.pokemonId));
+  await openSearchPokemonDetail(Number(event.currentTarget.dataset.pokemonId));
 }
 
 async function openSearchPokemonDetail(id) {
@@ -143,12 +146,12 @@ function finishEmptySearch() {
 }
 
 async function findPokemonSearchResults(query) {
-  if (isNumberSearch(query)) return await searchPokemonNumber(query);
-  return await searchPokemonName(query);
+  if (isNumberSearch(query)) return searchPokemonNumber(query);
+  return searchPokemonName(query);
 }
 
 function isNumberSearch(query) {
-  return /^[0-9]+$/.test(query);
+  return !isNaN(query);
 }
 
 async function searchPokemonNumber(query) {
