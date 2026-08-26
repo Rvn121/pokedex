@@ -106,10 +106,11 @@ async function runPokemonSearch(query) {
   }
 }
 
-// Rendert die Treffer und öffnet anschließend den Suchergebnis-Dialog.
+// Rendert die Treffer, sperrt den Hintergrund und öffnet den Suchergebnis-Dialog.
 function openSearchResults(results) {
   renderSearchPreview(results);
   stopLoading();
+  lockSearchResultPage();
   if (!searchResultsDialog.open) searchResultsDialog.showModal();
 }
 
@@ -240,15 +241,27 @@ function closeSearchResultsDialog() {
   hideSearchResultsDialog();
 }
 
-// Schließt den Suchergebnis-Dialog, wenn er gerade geöffnet ist.
+// Schließt den Suchergebnis-Dialog und gibt den Hintergrund wieder zum Scrollen frei.
 function hideSearchResultsDialog() {
   if (searchResultsDialog.open) searchResultsDialog.close();
+  unlockSearchResultPage();
 }
 
 // Öffnet nach dem Schließen einer Detailansicht wieder das vorherige Suchergebnis.
 function reopenSearchResultsAfterDetail() {
   if (!returnToSearchResults) return;
+  lockSearchResultPage();
   if (!searchResultsDialog.open) searchResultsDialog.showModal();
+}
+
+// Sperrt den Seitenhintergrund, solange das Suchergebnis geöffnet ist.
+function lockSearchResultPage() {
+  document.body.style.overflow = "hidden";
+}
+
+// Gibt den Seitenhintergrund nach dem Schließen des Suchergebnisses wieder frei.
+function unlockSearchResultPage() {
+  document.body.style.overflow = "";
 }
 
 // Schließt das Suchergebnis, wenn direkt auf den Hintergrund neben dem Dialog geklickt wird.
