@@ -71,7 +71,7 @@ function getEvolutionTemplate(item, currentId) {
 }
 
 function getNotFoundTemplate() {
-  return `<p data-id="not-found">No match found.</p>`;
+  return `<p data-id="not-found">No matching Pokémon found.</p>`;
 }
 
 function formatPokemonId(id) {

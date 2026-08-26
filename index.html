@@ -41,24 +41,38 @@
           />
         </div>
 
-        <div class="search-area">
+        <div class="search-area" id="searchArea">
           <input
             type="search"
             class="form-control search-input"
+            id="searchInput"
             placeholder="Search Pokémon..."
             aria-label="Search Pokémon"
+            aria-describedby="searchHelpBubble"
             data-id="search-input"
             minlength="3"
+            autocomplete="off"
           />
 
           <button
             class="btn btn-warning search-button"
+            id="searchButton"
             type="button"
             aria-label="Search Pokémon"
             data-id="search-button"
           >
             Search
           </button>
+
+          <div
+            class="search-help-bubble"
+            id="searchHelpBubble"
+            role="tooltip"
+            aria-hidden="true"
+          >
+            Enter at least 3 digits, e.g. “007”, or 3 letters,
+            e.g. “pik”, to start searching.
+          </div>
         </div>
       </div>
     </header>
@@ -477,6 +491,84 @@
       </div>
     </dialog>
 
+    <!-- Search Results Dialog -->
+    <dialog
+      class="search-results-dialog"
+      id="searchResultsDialog"
+      aria-label="Pokémon search results"
+    >
+      <div class="search-results-content">
+        <button
+          class="search-results-close"
+          id="closeSearchResultsButton"
+          type="button"
+          aria-label="Close search results"
+        >
+          <img
+            src="./assets/icons/schliessen.png"
+            alt=""
+          />
+        </button>
+
+        <div class="search-results-header">
+          <p class="search-results-kicker">Search</p>
+          <h2>Search Results</h2>
+          <p
+            class="search-results-count"
+            id="searchResultsCount"
+          ></p>
+        </div>
+
+        <ul
+          class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3
+                 list-unstyled search-results-list"
+          id="searchResultsList"
+          aria-label="Matching Pokémon"
+        ></ul>
+      </div>
+    </dialog>
+
+    <!-- Search Error Dialog -->
+    <dialog
+      class="search-error-dialog"
+      id="searchErrorDialog"
+      aria-label="Pokémon search error"
+    >
+      <div class="search-error-content">
+        <button
+          class="search-error-close"
+          id="closeSearchErrorButton"
+          type="button"
+          aria-label="Close search error"
+        >
+          <img
+            src="./assets/icons/schliessen.png"
+            alt=""
+          />
+        </button>
+
+        <img
+          src="./assets/img/pokemon search.png"
+          alt="Pokémon search"
+          class="search-error-image"
+        />
+
+        <div
+          class="search-error-message"
+          id="searchErrorMessage"
+        ></div>
+
+        <button
+          class="btn btn-warning search-error-ok"
+          id="searchErrorOkButton"
+          type="button"
+          aria-label="Close search error"
+        >
+          OK
+        </button>
+      </div>
+    </dialog>
+
     <!-- Error Dialog -->
     <dialog
       class="error-dialog"
@@ -513,6 +605,7 @@
     <!-- Eigene JavaScript -->
     <script src="./scripts/database.js"></script>
     <script src="./scripts/templates.js"></script>
+    <script src="./scripts/search.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

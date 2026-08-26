@@ -1,4 +1,6 @@
 {
   "pokemon": [],
-  "evolutions": {}
+  "evolutions": {},
+  "contentIds": [],
+  "searchIndex": []
 }
