@@ -1,5 +1,6 @@
 "use strict";
 
+// Erstellt das äußere Listenelement für eine einzelne Pokémon-Karte.
 function getPokemonCardTemplate(pokemon) {
   return `
     <li class="col">
@@ -8,6 +9,7 @@ function getPokemonCardTemplate(pokemon) {
   `;
 }
 
+// Erstellt den anklickbaren Button einer Pokémon-Karte inklusive Haupttyp und data-id.
 function getPokemonCardButtonTemplate(pokemon) {
   const mainType = pokemon.types[0];
   return `
@@ -20,6 +22,7 @@ function getPokemonCardButtonTemplate(pokemon) {
   `;
 }
 
+// Erstellt den Kopfbereich einer Karte mit Pokémon-ID und Namen.
 function getPokemonCardHeaderTemplate(pokemon) {
   return `
     <div class="pokemon-card-head">
@@ -29,6 +32,7 @@ function getPokemonCardHeaderTemplate(pokemon) {
   `;
 }
 
+// Erstellt den unteren Kartenbereich mit Typen und Pokémon-Bild.
 function getPokemonCardBodyTemplate(pokemon) {
   return `
     <div class="pokemon-card-body">
@@ -38,6 +42,7 @@ function getPokemonCardBodyTemplate(pokemon) {
   `;
 }
 
+// Erstellt das Bild-Element der kleinen Pokémon-Karte.
 function getPokemonCardImageTemplate(pokemon) {
   return `
     <img class="pokemon-image" data-id="card-image"
@@ -46,20 +51,24 @@ function getPokemonCardImageTemplate(pokemon) {
   `;
 }
 
+// Erstellt aus allen Typen eines Pokémon die komplette Typen-Ausgabe.
 function getPokemonTypesTemplate(types) {
   return types.map(getPokemonTypeTemplate).join("");
 }
 
+// Erstellt die sichtbare Plakette für einen einzelnen Pokémon-Typ.
 function getPokemonTypeTemplate(type) {
   const name = capitalizePokemonWord(type);
   return `<span class="pokemon-type type-${type}">${name}</span>`;
 }
 
 
+// Erstellt eine einzelne sichtbare Attacke für den Moves-Bereich.
 function getMoveTemplate(move) {
   return `<span class="detail-move">${capitalizePokemonWord(move)}</span>`;
 }
 
+// Erstellt einen anklickbaren Eintrag der Evolutionskette und markiert das aktuelle Pokémon.
 function getEvolutionTemplate(item, currentId) {
   const activeClass = item.id === currentId ? " active" : "";
   return `
@@ -70,26 +79,31 @@ function getEvolutionTemplate(item, currentId) {
   `;
 }
 
+// Erstellt die vorgeschriebene Kein-Treffer-Meldung mit data-id="not-found".
 function getNotFoundTemplate() {
   return `<p data-id="not-found">No matching Pokémon found.</p>`;
 }
 
+// Formatiert eine Pokémon-ID auf mindestens drei Stellen und setzt ein # davor.
 function formatPokemonId(id) {
   let number = String(id);
   while (number.length < 3) number = "0" + number;
   return "#" + number;
 }
 
+// Schreibt den ersten Buchstaben eines Pokémon-Begriffs groß.
 function capitalizePokemonWord(word) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 
+// Erstellt einen Typ-Chip für den Profilbereich der Detailansicht.
 function getDetailTypeTemplate(type) {
   const name = capitalizePokemonWord(type);
   return `<span class="detail-type-chip type-${type}">${name}</span>`;
 }
 
+// Erstellt einen Ability-Chip für den Profilbereich der Detailansicht.
 function getDetailAbilityTemplate(ability) {
   const name = capitalizePokemonWord(ability);
   return `<span class="detail-ability-chip">${name}</span>`;

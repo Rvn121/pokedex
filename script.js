@@ -25,6 +25,7 @@ let detailPokemon = [];
 let currentPokemonIndex = 0;
 let isLoading = false;
 
+// Startet die Anwendung und initialisiert alle wichtigen Bereiche des Pokédex.
 async function init() {
   initDetail();
   initEvolution();

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Impressum | Pokédex</title>
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="./assets/icons/pokeball favi.png"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="./css/standard.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <header class="page-header">
+      <div class="wide-content header-content">
+        <div class="header-logo-area">
+          <a
+            href="./index.html"
+            class="header-logo-link"
+            aria-label="Back to Pokédex"
+          >
+            <img
+              src="./assets/img/pokedexlogo.png"
+              alt="Pokédex logo"
+              class="pokedex-logo"
+            />
+          </a>
+        </div>
+
+        <a
+          href="./index.html"
+          class="btn btn-warning imprint-back-button"
+        >
+          Back to Pokédex
+        </a>
+      </div>
+    </header>
+
+    <main class="page-content flex-grow-1">
+      <div class="content-width imprint-page">
+        <section class="imprint-card">
+          <p class="imprint-kicker">Legal Notice</p>
+          <h1>Impressum</h1>
+
+          <div class="imprint-section">
+            <h2>Angaben gemäß § 5 DDG</h2>
+            <p>
+              Rouven Loske<br />
+              Hunoldstr. 52a<br />
+              31785 Hameln<br />
+              Deutschland
+            </p>
+          </div>
+
+          <div class="imprint-section">
+            <h2>Kontakt</h2>
+            <p>
+              E-Mail:
+              <a href="mailto:example@example.com">
+                rloske90@gmail.com
+              </a>
+            </p>
+          </div>
+
+          <div class="imprint-section">
+            <h2>Verantwortlich für den Inhalt</h2>
+            <p>
+              Rouven Loske<br />
+              Anschrift wie oben
+            </p>
+          </div>
+
+          <div class="imprint-section">
+            <h2>Hinweis zum Projekt</h2>
+            <p>
+              Dieser Pokédex wurde im Rahmen einer Schulung erstellt.
+              Die Website dient ausschließlich zu Lern- und
+              Demonstrationszwecken und stellt kein kommerzielles Angebot dar.
+            </p>
+          </div>
+
+          <div class="imprint-section">
+            <h2>Pokémon und PokéAPI</h2>
+            <p>
+              Pokémon und die dazugehörigen Namen, Bilder und Marken gehören
+              den jeweiligen Rechteinhabern. Die verwendeten Pokémon-Daten
+              werden über die öffentliche PokéAPI bezogen.
+            </p>
+          </div>
+
+          <div class="imprint-section">
+            <h2>Haftung für Inhalte</h2>
+            <p>
+              Die Inhalte dieses Schulungsprojekts wurden mit größtmöglicher
+              Sorgfalt erstellt. Für Vollständigkeit, Richtigkeit und
+              Aktualität der dargestellten Inhalte wird keine Gewähr
+              übernommen.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="page-footer">
+      <div class="wide-content footer-content">
+        <img
+          src="./assets/img/Rouven-Logo.png"
+          alt="Rouven Loske logo"
+          class="footer-logo"
+        />
+
+        <p class="copyright">© 2026 by Rouven Loske</p>
+
+        <a href="./index.html" class="footer-link">
+          Back to Pokédex
+        </a>
+      </div>
+    </footer>
+
+    <dialog
+      class="training-dialog"
+      id="trainingDialog"
+      aria-label="Training project information"
+    >
+      <div class="training-dialog-content">
+        <button
+          class="training-dialog-close"
+          id="closeTrainingDialogButton"
+          type="button"
+          aria-label="Close information"
+        >
+          <img
+            src="./assets/icons/schliessen.png"
+            alt=""
+          />
+        </button>
+
+        <img
+          src="./assets/img/pokedexlogo.png"
+          alt="Pokédex logo"
+          class="training-dialog-logo"
+        />
+
+        <h2>Training Project</h2>
+
+        <p>
+          This Pokédex is a training project and is intended
+          for demonstration and learning purposes only.
+        </p>
+
+        <button
+          class="btn btn-warning training-dialog-ok"
+          id="trainingDialogOkButton"
+          type="button"
+        >
+          OK
+        </button>
+      </div>
+    </dialog>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="./scripts/imprint.js"></script>
+  </body>
+</html>
