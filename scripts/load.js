@@ -36,10 +36,10 @@ async function runPokemonLoading(ids) {
     await loadPokemonIds(ids);
     saveContentIds(ids);
     renderDatabase();
-  } catch (error) {
-    showErrorDialog();
-  } finally {
     stopLoading();
+  } catch (error) {
+    stopLoading();
+    showErrorDialog();
   }
 }
 
@@ -55,10 +55,15 @@ function getMissingPokemonIds(amount) {
   const ids = [];
   const contentIds = getContentIds();
   for (let id = 1; id <= MAX_POKEMON; id++) {
-    if (!contentIds.includes(id)) ids.push(id);
+    if (findIdInList(contentIds, id) === -1) ids.push(id);
     if (hasEnoughIds(ids, amount)) break;
   }
   return ids;
+}
+
+// Sucht eine ID in einer einfachen ID-Liste.
+function findIdInList(ids, id) {
+  return ids.findIndex((savedId) => savedId === id);
 }
 
 // Prüft, ob bereits genügend IDs für die ausgewählte Nachlademenge gesammelt wurden.

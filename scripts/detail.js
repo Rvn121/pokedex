@@ -64,7 +64,7 @@ function addCardEvents() {
 // Bereitet die angeklickte Content-Karte vor und startet anschließend die Fang-Animation.
 function openClickedCard(event) {
   const card = event.currentTarget;
-  const id = Number(card.dataset.pokemonId);
+  const id = Number(card.getAttribute("data-pokemon-id"));
   returnToSearchResults = false;
   detailPokemon = renderedPokemon;
   currentPokemonIndex = findDetailPokemonIndex(id);
@@ -124,7 +124,7 @@ async function openPokemonDialog() {
 function showPokemonDialog() {
   updatePokemonDetail();
   resetDetailCarousel();
-  if (!pokemonDialog.open) pokemonDialog.showModal();
+  pokemonDialog.showModal();
   document.body.classList.add("dialog-open");
   restartDetailAnimation();
 }
@@ -195,7 +195,8 @@ function updateDetailStats(pokemon) {
 // Setzt einen Basiswert und berechnet die Breite seines Fortschrittsbalkens.
 function updateStat(name, value) {
   setText(`stat${name}`, value);
-  const percent = Math.min((value / 255) * 100, 100);
+  let percent = (value / 255) * 100;
+  if (percent > 100) percent = 100;
   document.getElementById(`bar${name}`).style.width = `${percent}%`;
 }
 
@@ -305,9 +306,9 @@ function showDetailAnimation() {
   detailCard.classList.add("pop-out");
 }
 
-// Öffnet den allgemeinen Fehlerdialog, wenn er noch nicht geöffnet ist.
+// Öffnet den allgemeinen Fehlerdialog.
 function showErrorDialog() {
-  if (!errorDialog.open) errorDialog.showModal();
+  errorDialog.showModal();
 }
 
 // Schließt den allgemeinen Fehlerdialog.

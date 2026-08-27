@@ -52,7 +52,9 @@ function followMouseWithEye(eye, event) {
 // Begrenzt die Bewegung einer Pupille auf maximal sieben Pixel.
 function limitEyeMove(value) {
   const move = value / 20;
-  return Math.max(-7, Math.min(7, move));
+  if (move > 7) return 7;
+  if (move < -7) return -7;
+  return move;
 }
 
 // Setzt die berechnete X- und Y-Position einer Pupille per CSS-Transform.

@@ -13,7 +13,7 @@ function initEvolution() {
 
 // Liest die Evolutions-ID aus einem Navigationsbutton und öffnet das passende Pokémon.
 function openEvolutionFromButton(event) {
-  const id = Number(event.currentTarget.dataset.evolutionId);
+  const id = Number(event.currentTarget.getAttribute("data-evolution-id"));
   if (id) openEvolutionPokemon(id);
 }
 
@@ -25,7 +25,7 @@ function addEvolutionCardEvents() {
 
 // Öffnet das Pokémon, dessen Evolutionskarte angeklickt wurde.
 function openEvolutionCard(event) {
-  const id = Number(event.currentTarget.dataset.evolutionId);
+  const id = Number(event.currentTarget.getAttribute("data-evolution-id"));
   openEvolutionPokemon(id);
 }
 
@@ -106,7 +106,7 @@ function prepareEvolutionChain(chain) {
 // Verarbeitet einen Eintrag der Evolutionsstruktur und fügt ihn der Ergebnisliste hinzu.
 function addEvolutionLink(queue, evolution) {
   const current = queue.shift();
-  const id = getIdFromUrl(current.link.species.url);
+  const id = getIdFromApiUrl(current.link.species.url);
   const nextIds = current.link.evolves_to.map(getEvolutionId);
   evolution.push(getEvolutionItem(current, id, nextIds));
   addNextEvolutionLinks(queue, current.link.evolves_to, id);
@@ -137,14 +137,9 @@ function addNextEvolutionLink(queue, link, previousId) {
 
 // Liest die Pokémon-ID aus einem einzelnen Evolutionseintrag aus.
 function getEvolutionId(link) {
-  return getIdFromUrl(link.species.url);
+  return getIdFromApiUrl(link.species.url);
 }
 
-// Liest die letzte Zahl einer PokéAPI-URL aus und gibt sie als ID zurück.
-function getIdFromUrl(url) {
-  const parts = url.split("/").filter((part) => part);
-  return Number(parts[parts.length - 1]);
-}
 
 // Zeigt die Evolutionskette an, aktualisiert die Buttons und setzt Klick-Ereignisse.
 function renderEvolutionSection(currentId, evolution) {
@@ -176,7 +171,7 @@ function setNextEvolutionButton(nextIds) {
 
 // Speichert eine Evolutions-ID am Button und aktiviert oder deaktiviert ihn passend dazu.
 function setEvolutionButton(button, id) {
-  button.dataset.evolutionId = id || "";
+  button.setAttribute("data-evolution-id", id || "");
   button.disabled = !id;
   button.textContent = getEvolutionButtonText(button);
 }

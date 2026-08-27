@@ -3,10 +3,9 @@
 const API_URL = "https://pokeapi.co/api/v2/pokemon/";
 const SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/";
 
-// Ruft eine URL ab, prüft die Antwort und gibt die erhaltenen Daten als JSON zurück.
+// Ruft eine URL ab und gibt die erhaltenen Daten als JSON zurück.
 async function fetchJson(url) {
   const response = await fetch(url);
-  if (!response.ok) throw new Error("API data could not be loaded.");
   return await response.json();
 }
 
@@ -86,5 +85,20 @@ function getPokemonAbilities(data) {
 
 // Liest die ersten 20 Attacken eines Pokémon aus den API-Daten aus.
 function getPokemonMoves(data) {
-  return data.moves.slice(0, 20).map((item) => item.move.name);
+  const moves = [];
+  for (let i = 0; i < data.moves.length && i < 20; i++) {
+    moves.push(data.moves[i].move.name);
+  }
+  return moves;
+}
+
+// Liest die Pokémon-ID am Ende einer PokéAPI-URL aus.
+function getIdFromApiUrl(url) {
+  let number = "";
+  let index = url.length - 2;
+  while (index >= 0 && url.charAt(index) !== "/") {
+    number = url.charAt(index) + number;
+    index--;
+  }
+  return Number(number);
 }

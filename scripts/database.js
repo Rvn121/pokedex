@@ -46,7 +46,6 @@ function loadSavedDatabase(savedDatabase) {
 // Lädt die leere database.json und speichert diese als neue Sitzungsdatenbank.
 async function loadEmptyDatabase() {
   const response = await fetch(DATABASE_FILE);
-  if (!response.ok) throw new Error("Database could not be loaded.");
   pokemonDatabase = await response.json();
   ensureDatabaseFields();
   saveDatabase();
@@ -100,9 +99,13 @@ function saveContentIds(ids) {
 
 // Fügt eine einzelne Content-ID nur hinzu, wenn sie noch nicht gespeichert wurde.
 function saveContentId(id) {
-  if (!pokemonDatabase.contentIds.includes(id)) {
-    pokemonDatabase.contentIds.push(id);
-  }
+  const index = findContentId(id);
+  if (index === -1) pokemonDatabase.contentIds.push(id);
+}
+
+// Sucht eine Content-ID in der gespeicherten ID-Liste.
+function findContentId(id) {
+  return pokemonDatabase.contentIds.findIndex((savedId) => savedId === id);
 }
 
 // Gibt alle IDs zurück, die zum normalen Kartenbereich gehören.

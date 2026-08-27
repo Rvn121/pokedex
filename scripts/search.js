@@ -111,7 +111,7 @@ function openSearchResults(results) {
   renderSearchPreview(results);
   stopLoading();
   lockSearchResultPage();
-  if (!searchResultsDialog.open) searchResultsDialog.showModal();
+  searchResultsDialog.showModal();
 }
 
 // Erstellt die Vorschaukarten der Suchtreffer und aktualisiert die Trefferanzahl.
@@ -138,7 +138,7 @@ function getSearchResultCountText(amount) {
 async function openSearchPreviewCard(event) {
   returnToSearchResults = true;
   hideSearchResultsDialog();
-  await openSearchPokemonDetail(Number(event.currentTarget.dataset.pokemonId));
+  await openSearchPokemonDetail(Number(event.currentTarget.getAttribute("data-pokemon-id")));
 }
 
 // Setzt das ausgewählte Such-Pokémon und startet den Ladevorgang für seine Detailansicht.
@@ -172,9 +172,18 @@ async function findPokemonSearchResults(query) {
   return searchPokemonName(query);
 }
 
-// Prüft, ob die Suchanfrage als Zahl interpretiert werden kann.
+// Prüft, ob die Suchanfrage nur aus Zahlen besteht.
 function isNumberSearch(query) {
-  return !isNaN(query);
+  for (let i = 0; i < query.length; i++) {
+    if (!isSearchNumber(query.charAt(i))) return false;
+  }
+  return query.length > 0;
+}
+
+// Prüft, ob ein einzelnes Zeichen eine Zahl von 0 bis 9 ist.
+function isSearchNumber(character) {
+  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  return numbers.findIndex((number) => number === character) !== -1;
 }
 
 // Sucht ein einzelnes Pokémon anhand einer gültigen ID zwischen 1 und 1025.
@@ -187,8 +196,24 @@ async function searchPokemonNumber(query) {
 // Sucht im Namensindex nach allen Pokémon, deren Name die eingegebene Zeichenfolge enthält.
 async function searchPokemonName(query) {
   const searchIndex = await getPokemonSearchIndex();
-  const matches = searchIndex.filter((pokemon) => pokemon.name.includes(query));
+  const matches = searchIndex.filter((pokemon) => pokemonNameMatches(pokemon.name, query));
   return await loadSearchMatches(matches);
+}
+
+// Prüft, ob der Suchtext irgendwo im Pokémon-Namen vorkommt.
+function pokemonNameMatches(name, query) {
+  for (let start = 0; start <= name.length - query.length; start++) {
+    if (textMatchesAtPosition(name, query, start)) return true;
+  }
+  return false;
+}
+
+// Vergleicht den Suchtext Zeichen für Zeichen ab einer bestimmten Position.
+function textMatchesAtPosition(name, query, start) {
+  for (let i = 0; i < query.length; i++) {
+    if (name.charAt(start + i) !== query.charAt(i)) return false;
+  }
+  return true;
 }
 
 // Nimmt den Suchindex aus dem Cache oder lädt einmalig alle Namen und IDs von der PokéAPI.
@@ -217,8 +242,7 @@ function getSearchIndexItem(pokemon) {
 
 // Liest die Pokémon-ID aus der URL eines Suchindex-Eintrags aus.
 function getSearchIdFromUrl(url) {
-  const parts = url.split("/").filter((part) => part);
-  return Number(parts[parts.length - 1]);
+  return getIdFromApiUrl(url);
 }
 
 // Lädt alle gefundenen Suchtreffer nacheinander und gibt die vollständigen Pokémon-Daten zurück.
@@ -230,9 +254,56 @@ async function loadSearchMatches(matches) {
   return pokemon;
 }
 
-// Liest den Suchtext aus, entfernt Leerzeichen am Rand und wandelt ihn in Kleinbuchstaben um.
+// Liest den Suchtext aus, entfernt Leerzeichen am Rand und schreibt ihn klein.
 function getSearchQuery() {
-  return searchInput.value.trim().toLowerCase();
+  const text = trimSearchText(searchInput.value);
+  return convertSearchTextToLowerCase(text);
+}
+
+// Entfernt Leerzeichen am Anfang und Ende des Suchtextes.
+function trimSearchText(text) {
+  let start = 0;
+  let end = text.length - 1;
+  while (start < text.length && text.charAt(start) === " ") start++;
+  while (end >= start && text.charAt(end) === " ") end--;
+  return getSearchTextPart(text, start, end);
+}
+
+// Baut den Suchtext zwischen Start- und Endposition neu zusammen.
+function getSearchTextPart(text, start, end) {
+  let result = "";
+  for (let i = start; i <= end; i++) result += text.charAt(i);
+  return result;
+}
+
+// Wandelt Großbuchstaben im Suchtext mit einfachen Arrays in Kleinbuchstaben um.
+function convertSearchTextToLowerCase(text) {
+  let result = "";
+  for (let i = 0; i < text.length; i++) {
+    result += getLowerCaseLetter(text.charAt(i));
+  }
+  return result;
+}
+
+// Gibt für einen Großbuchstaben den passenden Kleinbuchstaben zurück.
+function getLowerCaseLetter(letter) {
+  const upper = getUpperCaseLetters();
+  const lower = getLowerCaseLetters();
+  const index = upper.findIndex((item) => item === letter);
+  if (index === -1) return letter;
+  return lower[index];
+}
+
+// Gibt alle Großbuchstaben zurück, die für die Suche benötigt werden.
+function getUpperCaseLetters() {
+  return ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+}
+
+// Gibt alle Kleinbuchstaben zurück, die zu den Großbuchstaben gehören.
+function getLowerCaseLetters() {
+  return ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 }
 
 // Beendet den Rückkehrmodus und schließt den Suchergebnis-Dialog.
@@ -243,7 +314,7 @@ function closeSearchResultsDialog() {
 
 // Schließt den Suchergebnis-Dialog und gibt den Hintergrund wieder zum Scrollen frei.
 function hideSearchResultsDialog() {
-  if (searchResultsDialog.open) searchResultsDialog.close();
+  searchResultsDialog.close();
   unlockSearchResultPage();
 }
 
@@ -251,7 +322,7 @@ function hideSearchResultsDialog() {
 function reopenSearchResultsAfterDetail() {
   if (!returnToSearchResults) return;
   lockSearchResultPage();
-  if (!searchResultsDialog.open) searchResultsDialog.showModal();
+  searchResultsDialog.showModal();
 }
 
 // Sperrt den Seitenhintergrund, solange das Suchergebnis geöffnet ist.
@@ -272,7 +343,7 @@ function closeSearchResultsOnBackdrop(event) {
 // Fügt die Kein-Treffer-Meldung ein und öffnet den dazugehörigen Dialog.
 function showSearchNotFoundDialog() {
   searchErrorMessage.innerHTML = getNotFoundTemplate();
-  if (!searchErrorDialog.open) searchErrorDialog.showModal();
+  searchErrorDialog.showModal();
 }
 
 // Schließt den Kein-Treffer-Dialog.

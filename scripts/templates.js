@@ -93,7 +93,11 @@ function formatPokemonId(id) {
 
 // Schreibt den ersten Buchstaben eines Pokémon-Begriffs groß.
 function capitalizePokemonWord(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+  let result = word.charAt(0).toUpperCase();
+  for (let i = 1; i < word.length; i++) {
+    result += word.charAt(i);
+  }
+  return result;
 }
 
 
