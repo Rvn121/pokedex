@@ -15,13 +15,7 @@ function initDetail() {
   addDetailTabEvents();
 }
 
-// Verknüpft die Schließen-Funktionen und den Klick neben den Dialog mit den passenden Ereignissen.
-function addDialogEvents() {
-  closeDialogButton.addEventListener("click", closePokemonDialog);
-  closeErrorButton.addEventListener("click", closeErrorDialog);
-  pokemonDialog.addEventListener("click", closeDialogOnBackdrop);
-  pokemonDialog.addEventListener("close", unlockPage);
-}
+
 
 // Verknüpft die beiden Pfeilbuttons mit dem vorherigen und nächsten Pokémon.
 function addNavigationEvents() {
