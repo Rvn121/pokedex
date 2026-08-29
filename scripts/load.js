@@ -29,17 +29,18 @@ async function loadPokemonAmount(amount) {
   await runPokemonLoading(ids);
 }
 
-/** DE: Steuert den kompletten Ladevorgang inklusive Spinner, Speichern, Rendern und Fehlerbehandlung. | EN: Controls the complete loading process including spinner, saving, rendering and error handling. */
+/**DE: Lädt Pokémon, speichert die IDs und aktualisiert die Kartenansicht. | EN: Loads Pokémon, saves the IDs and updates the card view. */
 async function runPokemonLoading(ids) {
   startLoading(ids.length);
   try {
     await loadPokemonIds(ids);
     saveContentIds(ids);
     renderDatabase();
-    stopLoading();
   } catch (error) {
-    stopLoading();
+    console.error(error);
     showErrorDialog();
+  } finally {
+    stopLoading();
   }
 }
 
