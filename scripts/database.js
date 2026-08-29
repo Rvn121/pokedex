@@ -12,7 +12,7 @@ let pokemonDatabase = {
 
 let leavePageByLink = false;
 
-// Initialisiert die lokale Sitzungsdatenbank und lädt vorhandene Daten oder die leere JSON-Grundstruktur.
+/** DE: Initialisiert die lokale Sitzungsdatenbank und lädt vorhandene Daten oder die leere JSON-Grundstruktur. | EN: Initializes the local session database and loads saved data or the empty JSON structure. */
 async function initDatabase() {
   addDatabaseNavigationEvents();
   const savedDatabase = sessionStorage.getItem(DATABASE_KEY);
@@ -20,30 +20,30 @@ async function initDatabase() {
   await loadEmptyDatabase();
 }
 
-// Registriert Ereignisse, damit die Daten beim Seitenwechsel erhalten bleiben und nur beim echten Refresh gelöscht werden.
+/** DE: Registriert Ereignisse, damit die Daten beim Seitenwechsel erhalten bleiben und nur beim echten Refresh gelöscht werden. | EN: Registers events so data survives page changes and is cleared only on a real refresh. */
 function addDatabaseNavigationEvents() {
   const links = document.querySelectorAll("a");
   links.forEach((link) => link.addEventListener("click", keepDatabase));
   window.addEventListener("beforeunload", clearDatabaseOnRefresh);
 }
 
-// Merkt sich, dass die Seite über einen Link verlassen wird und die gespeicherten Daten erhalten bleiben sollen.
+/** DE: Merkt sich, dass die Seite über einen Link verlassen wird und die gespeicherten Daten erhalten bleiben sollen. | EN: Remembers that the page is being left through a link so stored data should be kept. */
 function keepDatabase() {
   leavePageByLink = true;
 }
 
-// Löscht die Session-Datenbank, wenn die Seite wirklich neu geladen wird.
+/** DE: Löscht die Session-Datenbank, wenn die Seite wirklich neu geladen wird. | EN: Clears the session database when the page is actually refreshed. */
 function clearDatabaseOnRefresh() {
   if (!leavePageByLink) sessionStorage.removeItem(DATABASE_KEY);
 }
 
-// Liest die bereits gespeicherte JSON-Datenbank aus dem sessionStorage ein.
+/** DE: Liest die bereits gespeicherte JSON-Datenbank aus dem sessionStorage ein. | EN: Reads the stored JSON database from sessionStorage. */
 function loadSavedDatabase(savedDatabase) {
   pokemonDatabase = JSON.parse(savedDatabase);
   ensureDatabaseFields();
 }
 
-// Lädt die leere database.json und speichert diese als neue Sitzungsdatenbank.
+/** DE: Lädt die leere database.json und speichert diese als neue Sitzungsdatenbank. | EN: Loads the empty database.json and saves it as the new session database. */
 async function loadEmptyDatabase() {
   const response = await fetch(DATABASE_FILE);
   pokemonDatabase = await response.json();
@@ -51,7 +51,7 @@ async function loadEmptyDatabase() {
   saveDatabase();
 }
 
-// Stellt sicher, dass alle benötigten Bereiche in der Datenbank vorhanden sind.
+/** DE: Stellt sicher, dass alle benötigten Bereiche in der Datenbank vorhanden sind. | EN: Ensures that all required database sections exist. */
 function ensureDatabaseFields() {
   if (!pokemonDatabase.pokemon) pokemonDatabase.pokemon = [];
   if (!pokemonDatabase.evolutions) pokemonDatabase.evolutions = {};
@@ -59,101 +59,101 @@ function ensureDatabaseFields() {
   if (!pokemonDatabase.searchIndex) pokemonDatabase.searchIndex = [];
 }
 
-// Wandelt die Datenbank in JSON um und speichert sie im sessionStorage.
+/** DE: Wandelt die Datenbank in JSON um und speichert sie im sessionStorage. | EN: Converts the database to JSON and stores it in sessionStorage. */
 function saveDatabase() {
   const databaseAsJson = JSON.stringify(pokemonDatabase);
   sessionStorage.setItem(DATABASE_KEY, databaseAsJson);
 }
 
-// Speichert mehrere Pokémon, sortiert sie nach ID und aktualisiert anschließend die Datenbank.
+/** DE: Speichert mehrere Pokémon, sortiert sie nach ID und aktualisiert anschließend die Datenbank. | EN: Saves multiple Pokémon, sorts them by ID and updates the database. */
 function savePokemonList(pokemonList) {
   pokemonList.forEach(savePokemon);
   pokemonDatabase.pokemon.sort(sortPokemonById);
   saveDatabase();
 }
 
-// Speichert ein Pokémon nur dann, wenn es noch nicht in der Datenbank vorhanden ist.
+/** DE: Speichert ein Pokémon nur dann, wenn es noch nicht in der Datenbank vorhanden ist. | EN: Saves a Pokémon only if it is not already stored in the database. */
 function savePokemon(pokemon) {
   const index = findPokemonInDatabase(pokemon.id);
   if (index === -1) pokemonDatabase.pokemon.push(pokemon);
 }
 
-// Sucht die Position eines Pokémon anhand seiner ID in der gespeicherten Pokémon-Liste.
+/** DE: Sucht die Position eines Pokémon anhand seiner ID in der gespeicherten Pokémon-Liste. | EN: Finds the position of a Pokémon by ID in the stored Pokémon list. */
 function findPokemonInDatabase(id) {
   return pokemonDatabase.pokemon.findIndex((pokemon) => pokemon.id === id);
 }
 
-// Gibt ein gespeichertes Pokémon anhand seiner ID zurück oder null, wenn es nicht vorhanden ist.
+/** DE: Gibt ein gespeichertes Pokémon anhand seiner ID zurück oder null, wenn es nicht vorhanden ist. | EN: Returns a stored Pokémon by ID or null if it does not exist. */
 function getPokemonFromDatabase(id) {
   const index = findPokemonInDatabase(id);
   if (index === -1) return null;
   return pokemonDatabase.pokemon[index];
 }
 
-// Speichert die IDs der Pokémon, die im normalen Kartenbereich angezeigt werden sollen.
+/** DE: Speichert die IDs der Pokémon, die im normalen Kartenbereich angezeigt werden sollen. | EN: Stores the IDs of Pokémon that should be displayed in the normal card area. */
 function saveContentIds(ids) {
   ids.forEach(saveContentId);
   pokemonDatabase.contentIds.sort((firstId, secondId) => firstId - secondId);
   saveDatabase();
 }
 
-// Fügt eine einzelne Content-ID nur hinzu, wenn sie noch nicht gespeichert wurde.
+/** DE: Fügt eine einzelne Content-ID nur hinzu, wenn sie noch nicht gespeichert wurde. | EN: Adds one content ID only if it has not been stored yet. */
 function saveContentId(id) {
   const index = findContentId(id);
   if (index === -1) pokemonDatabase.contentIds.push(id);
 }
 
-// Sucht eine Content-ID in der gespeicherten ID-Liste.
+/** DE: Sucht eine Content-ID in der gespeicherten ID-Liste. | EN: Finds a content ID in the stored ID list. */
 function findContentId(id) {
   return pokemonDatabase.contentIds.findIndex((savedId) => savedId === id);
 }
 
-// Gibt alle IDs zurück, die zum normalen Kartenbereich gehören.
+/** DE: Gibt alle IDs zurück, die zum normalen Kartenbereich gehören. | EN: Returns all IDs that belong to the normal card area. */
 function getContentIds() {
   return pokemonDatabase.contentIds;
 }
 
-// Erstellt aus den gespeicherten Content-IDs die Pokémon-Liste für den normalen Kartenbereich.
+/** DE: Erstellt aus den gespeicherten Content-IDs die Pokémon-Liste für den normalen Kartenbereich. | EN: Creates the Pokémon list for the normal card area from the stored content IDs. */
 function getContentPokemonFromDatabase() {
   const pokemon = [];
   pokemonDatabase.contentIds.forEach((id) => addContentPokemon(pokemon, id));
   return pokemon;
 }
 
-// Fügt ein gespeichertes Pokémon zur übergebenen Content-Liste hinzu.
+/** DE: Fügt ein gespeichertes Pokémon zur übergebenen Content-Liste hinzu. | EN: Adds a stored Pokémon to the provided content list. */
 function addContentPokemon(pokemon, id) {
   const savedPokemon = getPokemonFromDatabase(id);
   if (savedPokemon) pokemon.push(savedPokemon);
 }
 
-// Speichert den Namens- und ID-Index, der für die Suche verwendet wird.
+/** DE: Speichert den Namens- und ID-Index, der für die Suche verwendet wird. | EN: Stores the name and ID index used for searching. */
 function saveSearchIndex(searchIndex) {
   pokemonDatabase.searchIndex = searchIndex;
   saveDatabase();
 }
 
-// Gibt den bereits gespeicherten Suchindex zurück.
+/** DE: Gibt den bereits gespeicherten Suchindex zurück. | EN: Returns the already stored search index. */
 function getSearchIndex() {
   return pokemonDatabase.searchIndex;
 }
 
-// Vergleicht zwei Pokémon anhand ihrer ID und wird zum Sortieren verwendet.
+/** DE: Vergleicht zwei Pokémon anhand ihrer ID und wird zum Sortieren verwendet. | EN: Compares two Pokémon by ID and is used for sorting. */
 function sortPokemonById(firstPokemon, secondPokemon) {
   return firstPokemon.id - secondPokemon.id;
 }
 
-// Speichert eine komplette Evolutionskette für alle darin enthaltenen Pokémon.
+/** DE: Speichert eine komplette Evolutionskette für alle darin enthaltenen Pokémon. | EN: Stores a complete evolution chain for all Pokémon contained in it. */
 function saveEvolutionChain(evolution) {
   evolution.forEach((item) => saveEvolutionForId(item.id, evolution));
   saveDatabase();
 }
 
-// Ordnet einer Pokémon-ID die passende Evolutionskette in der Datenbank zu.
+/** DE: Ordnet einer Pokémon-ID die passende Evolutionskette in der Datenbank zu. | EN: Assigns the matching evolution chain to one Pokémon ID in the database. */
 function saveEvolutionForId(id, evolution) {
   pokemonDatabase.evolutions[id] = evolution;
 }
 
-// Gibt eine bereits gespeicherte Evolutionskette anhand der Pokémon-ID zurück.
+/** DE: Gibt eine bereits gespeicherte Evolutionskette anhand der Pokémon-ID zurück. | EN: Returns an already stored evolution chain by Pokémon ID. */
 function getEvolutionFromDatabase(id) {
   return pokemonDatabase.evolutions[id];
 }

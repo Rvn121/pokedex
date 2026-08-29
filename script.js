@@ -13,7 +13,6 @@ const loadingText = document.getElementById("loadingText");
 const loadedCounter = document.getElementById("loadedCounter");
 const loadMoreButton = document.getElementById("loadMoreButton");
 const loadCountSelect = document.getElementById("loadCountSelect");
-const loadButtonStage = document.getElementById("loadButtonStage");
 const closeDialogButton = document.getElementById("closeDialogButton");
 const closeErrorButton = document.getElementById("closeErrorButton");
 const prevPokemonButton = document.getElementById("prevPokemonButton");
@@ -25,12 +24,12 @@ let detailPokemon = [];
 let currentPokemonIndex = 0;
 let isLoading = false;
 
-// Startet die Anwendung und initialisiert alle wichtigen Bereiche des Pokédex.
+/** DE: Startet die Anwendung und initialisiert alle wichtigen Bereiche des Pokédex. 
+ * EN: Starts the application and initializes all important Pokédex areas. */
 async function init() {
   initDetail();
   initEvolution();
   initLoadMore();
-  initLoadButton();
   initSearch();
   await preparePokemonPage();
 }

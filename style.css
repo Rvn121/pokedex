@@ -253,28 +253,26 @@
 }
 
 .load-more-button {
+  min-height: 48px;
   padding: 10px 24px;
   border: 3px solid #212529;
   border-radius: 30px;
   background-color: #ffc107;
   color: #212529;
   font-weight: 700;
-  box-shadow: 0 5px 0 #dc3545;
-  transition:
-    transform 150ms ease,
-    box-shadow 150ms ease;
 }
 
 .load-more-button:hover {
   border-color: #212529;
   background-color: #ffcf33;
-  transform: translateY(-2px);
-  box-shadow: 0 7px 0 #dc3545;
+  color: #212529;
 }
 
-.load-more-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 3px 0 #dc3545;
+.load-more-button:disabled {
+  border-color: #adb5bd;
+  background-color: #dee2e6;
+  color: #6c757d;
+  opacity: 1;
 }
 
 /* Footer */
@@ -820,90 +818,6 @@ body.dialog-open {
   }
 }
 
-/* Load More Button Peek Effect */
-
-.load-button-stage {
-  position: relative;
-  display: inline-block;
-  min-width: 220px;
-}
-
-.load-button-background {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  border: 3px solid #212529;
-  border-radius: 30px;
-  background-color: #111;
-}
-
-.load-background-eyes {
-  position: absolute;
-  right: 20px;
-  bottom: 9px;
-  display: flex;
-  gap: 7px;
-}
-
-.load-background-eye {
-  position: relative;
-  width: 28px;
-  height: 28px;
-  overflow: hidden;
-  border: 2px solid white;
-  border-radius: 50%;
-  background-color: white;
-}
-
-.load-background-pupil {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #111;
-  transform: translate(-50%, -50%);
-  transition: transform 60ms linear;
-}
-
-.load-more-button {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  min-height: 54px;
-  transform-origin: left center;
-  transition:
-    transform 350ms ease,
-    box-shadow 350ms ease;
-}
-
-.load-more-button:hover {
-  border-color: #212529;
-  background-color: #ffcf33;
-  transform: none;
-}
-
-.load-button-stage.peek-active .load-more-button {
-  transform: rotate(380deg) translateY(-4px);
-  box-shadow: 0 12px 0 #dc3545;
-}
-
-.load-button-stage.peek-active .load-more-button:active {
-  transform: rotate(380deg) translateY(0);
-}
-
-@media (max-width: 480px) {
-  .load-button-stage {
-    width: 100%;
-  }
-
-  .load-more-button {
-    width: 100%;
-  }
-}
-
 
 /* API Content */
 
@@ -1023,27 +937,6 @@ body.dialog-open {
   border-color: #ffc107;
 }
 
-
-/* Load More Disabled State */
-
-.load-button-stage.disabled-state .load-button-background {
-  display: none;
-}
-
-.load-button-stage.disabled-state .load-more-button,
-.load-button-stage.disabled-state .load-more-button:hover,
-.load-button-stage.disabled-state .load-more-button:active {
-  border-color: #adb5bd;
-  background-color: #dee2e6;
-  color: #6c757d;
-  box-shadow: none;
-  opacity: 1;
-  transform: none;
-}
-
-.load-button-stage.disabled-state {
-  cursor: not-allowed;
-}
 
 
 @media (max-width: 600px) {
@@ -2945,5 +2838,65 @@ body.dialog-open {
 
   .training-dialog-content {
     padding: 24px 18px;
+  }
+}
+
+/* ===================================== */
+/* RESPONSIVE POKEMON CARD NAMES         */
+/* ===================================== */
+
+.pokemon-card {
+  min-width: 0;
+}
+
+.pokemon-card-head {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pokemon-id {
+  flex: 0 0 auto;
+}
+
+.pokemon-name {
+  flex: 1 1 120px;
+  min-width: 0;
+  max-width: 100%;
+  font-size: clamp(15px, 1.45vw, 20px);
+  line-height: 1.15;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1399px) {
+  .pokemon-name {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 575px) {
+  .pokemon-name {
+    font-size: 18px;
+  }
+}
+
+
+
+/* ===================================== */
+/* CARD NAME FIX AROUND LG BREAKPOINT    */
+/* ===================================== */
+
+/* Kurz oberhalb des Bootstrap-lg-Umbruchs sind 4 Karten sehr schmal.
+   Deshalb wird der Pokémon-Name nur in diesem Bereich etwas kleiner. */
+@media (min-width: 992px) and (max-width: 1049px) {
+  .pokemon-name {
+    font-size: 14px;
+  }
+}
+
+/* Nach dem Umbruch auf 3 Karten steht wieder mehr Platz zur Verfügung. */
+@media (min-width: 768px) and (max-width: 991px) {
+  .pokemon-name {
+    font-size: 17px;
   }
 }

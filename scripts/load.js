@@ -1,11 +1,11 @@
 "use strict";
 
-// Verknüpft den Load-More-Button mit der Funktion zum Nachladen weiterer Pokémon.
+/** DE: Verknüpft den Load-More-Button mit der Funktion zum Nachladen weiterer Pokémon. | EN: Connects the Load More button with the function that loads additional Pokémon. */
 function initLoadMore() {
   loadMoreButton.addEventListener("click", loadSelectedPokemonAmount);
 }
 
-// Initialisiert die Datenbank und lädt entweder vorhandene Content-Daten oder die ersten 20 Pokémon.
+/** DE: Initialisiert die Datenbank und lädt entweder vorhandene Content-Daten oder die ersten 20 Pokémon. | EN: Initializes the database and loads saved content data or the first 20 Pokémon. */
 async function preparePokemonPage() {
   try {
     await initDatabase();
@@ -16,12 +16,12 @@ async function preparePokemonPage() {
   }
 }
 
-// Liest die ausgewählte Menge aus dem Dropdown und startet das Nachladen.
+/** DE: Liest die ausgewählte Menge aus dem Dropdown und startet das Nachladen. | EN: Reads the selected amount from the dropdown and starts loading more Pokémon. */
 async function loadSelectedPokemonAmount() {
   await loadPokemonAmount(loadCountSelect.value);
 }
 
-// Ermittelt die noch fehlenden IDs und lädt die gewünschte Anzahl Pokémon.
+/** DE: Ermittelt die noch fehlenden IDs und lädt die gewünschte Anzahl Pokémon. | EN: Determines the missing IDs and loads the requested number of Pokémon. */
 async function loadPokemonAmount(amount) {
   if (isLoading) return;
   const ids = getMissingPokemonIds(amount);
@@ -29,7 +29,7 @@ async function loadPokemonAmount(amount) {
   await runPokemonLoading(ids);
 }
 
-// Steuert den kompletten Ladevorgang inklusive Spinner, Speichern, Rendern und Fehlerbehandlung.
+/** DE: Steuert den kompletten Ladevorgang inklusive Spinner, Speichern, Rendern und Fehlerbehandlung. | EN: Controls the complete loading process including spinner, saving, rendering and error handling. */
 async function runPokemonLoading(ids) {
   startLoading(ids.length);
   try {
@@ -43,14 +43,14 @@ async function runPokemonLoading(ids) {
   }
 }
 
-// Lädt alle übergebenen Pokémon-IDs nacheinander und sammelt die Ergebnisse in einem Array.
+/** DE: Lädt alle übergebenen Pokémon-IDs nacheinander und sammelt die Ergebnisse in einem Array. | EN: Loads all provided Pokémon IDs one after another and collects the results in an array. */
 async function loadPokemonIds(ids) {
   for (const id of ids) {
     await loadPokemonById(id);
   }
 }
 
-// Ermittelt die nächsten IDs, die noch nicht im normalen Contentbereich geladen wurden.
+/** DE: Ermittelt die nächsten IDs, die noch nicht im normalen Contentbereich geladen wurden. | EN: Determines the next IDs that have not yet been loaded into the normal content area. */
 function getMissingPokemonIds(amount) {
   const ids = [];
   const contentIds = getContentIds();
@@ -61,18 +61,17 @@ function getMissingPokemonIds(amount) {
   return ids;
 }
 
-// Sucht eine ID in einer einfachen ID-Liste.
+/** DE: Sucht eine ID in einer einfachen ID-Liste. | EN: Finds an ID in a simple ID list. */
 function findIdInList(ids, id) {
   return ids.findIndex((savedId) => savedId === id);
 }
 
-// Prüft, ob bereits genügend IDs für die ausgewählte Nachlademenge gesammelt wurden.
+/** DE: Prüft, ob bereits genügend IDs für die ausgewählte Nachlademenge gesammelt wurden. | EN: Checks whether enough IDs have been collected for the selected load amount. */
 function hasEnoughIds(ids, amount) {
-  if (amount === "all") return false;
   return ids.length >= Number(amount);
 }
 
-// Liest die Content-Pokémon aus der Datenbank und rendert daraus die Karten im Hauptbereich.
+/** DE: Liest die Content-Pokémon aus der Datenbank und rendert daraus die Karten im Hauptbereich. | EN: Reads the content Pokémon from the database and renders their cards in the main area. */
 function renderDatabase() {
   renderedPokemon = getContentPokemonFromDatabase();
   pokemonList.innerHTML = renderedPokemon.map(getPokemonCardTemplate).join("");
@@ -81,12 +80,12 @@ function renderDatabase() {
   updateLoadControls();
 }
 
-// Startet den Ladescreen mit einem Text passend zur Anzahl der zu ladenden Pokémon.
+/** DE: Startet den Ladescreen mit einem Text passend zur Anzahl der zu ladenden Pokémon. | EN: Starts the loading screen with text that matches the number of Pokémon being loaded. */
 function startLoading(amount) {
   startCustomLoading(`Loading ${amount} Pokémon...`);
 }
 
-// Startet den Ladescreen mit einem frei übergebenen Hinweistext.
+/** DE: Startet den Ladescreen mit einem frei übergebenen Hinweistext. | EN: Starts the loading screen with a custom information text. */
 function startCustomLoading(text) {
   isLoading = true;
   setLoadControlsDisabled(true);
@@ -95,7 +94,7 @@ function startCustomLoading(text) {
   loadingScreen.setAttribute("aria-hidden", "false");
 }
 
-// Beendet den Ladescreen und aktualisiert anschließend den Zustand der Ladeelemente.
+/** DE: Beendet den Ladescreen und aktualisiert anschließend den Zustand der Ladeelemente. | EN: Stops the loading screen and updates the state of the load controls. */
 function stopLoading() {
   isLoading = false;
   loadingScreen.classList.remove("show");
@@ -103,28 +102,20 @@ function stopLoading() {
   updateLoadControls();
 }
 
-// Aktualisiert die Anzeige, wie viele Pokémon von insgesamt 1025 im Content geladen sind.
+/** DE: Aktualisiert die Anzeige, wie viele Pokémon von insgesamt 1025 im Content geladen sind. | EN: Updates the display showing how many of the 1025 Pokémon are loaded in the content area. */
 function updateLoadedCounter() {
   const amount = getContentIds().length;
   loadedCounter.textContent = `${amount} of ${MAX_POKEMON} Pokémon loaded`;
 }
 
-// Prüft, ob gerade geladen wird oder alle Pokémon geladen sind, und setzt die Bedienelemente entsprechend.
+/** DE: Prüft, ob gerade geladen wird oder alle Pokémon geladen sind, und setzt die Bedienelemente entsprechend. | EN: Checks whether loading is active or all Pokémon are loaded and updates the controls. */
 function updateLoadControls() {
   const allLoaded = getContentIds().length >= MAX_POKEMON;
   setLoadControlsDisabled(allLoaded || isLoading);
 }
 
-// Aktiviert oder deaktiviert Load-More-Button und Mengen-Dropdown gemeinsam.
+/** DE: Aktiviert oder deaktiviert Load-More-Button und Mengen-Dropdown gemeinsam. | EN: Enables or disables the Load More button and amount dropdown together. */
 function setLoadControlsDisabled(disabled) {
   loadMoreButton.disabled = disabled;
   loadCountSelect.disabled = disabled;
-  setLoadButtonDisabledStyle(disabled);
-}
-
-// Setzt den optischen Disabled-Zustand des Load-More-Bereichs und beendet dabei die Augenanimation.
-function setLoadButtonDisabledStyle(disabled) {
-  if (disabled) loadButtonStage.classList.add("disabled-state");
-  if (!disabled) loadButtonStage.classList.remove("disabled-state");
-  if (disabled) closeLoadButtonPeek();
 }
